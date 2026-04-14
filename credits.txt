@@ -2,4 +2,3 @@ Project Manger: Awadh Salim Al Rae
 Scrum Master: Ahmed Salim Awadh Al Rae
 Senior Dev: Walimuni Dhanusha Tharanga Mendis Abesekara
 Junior Dev: Effiom Okon Effanga
-Front End Dev : Joyel Kalathil Joy
