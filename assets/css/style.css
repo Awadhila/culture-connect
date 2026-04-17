@@ -1,0 +1,326 @@
+/* --- 1. CORE BRAND VARIABLES --- */
+:root {
+    --cc-blue: #72b1e1;
+    --cc-bg-light: #f1f8fc;
+    --cc-black: #000000;
+    --cc-transition: 0.5s ease;
+    --nav-height: 48px; /* Standardized height for all interactive elements */
+}
+
+/* --- 2. GLOBAL RESET & BRAND RULES --- */
+body { 
+    font-family: 'Poppins', sans-serif; 
+    margin: 0; 
+    padding: 0; 
+}
+
+/* Force Square Edge Brand Identity */
+.btn, .navbar, .form-control, .nav-link, .project-container, .card, 
+.image-box, .navbar-nav.ms-auto, .form-select, .form-check-input { 
+    border-radius: 0 !important; 
+}
+
+/* --- 3. NAVIGATION --- */
+.navbar-cc { background-color: transparent !important; padding: 20px 0; }
+.nav-link-cc { color: var(--cc-blue) !important; font-weight: 600; 
+    margin: 0 15px; position: relative; transition: color 0.3s ease; }
+
+/* The Underline Animation */
+.nav-link-cc::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    display: block;
+    margin-top: 5px;
+    right: 0;
+    background: var(--cc-black); /* Contrast color for hover */
+    transition: width 0.3s ease;
+    -webkit-transition: width 0.3s ease;
+}
+
+.nav-link-cc:hover {
+    color: var(--cc-black) !important; /* Change text color on hover */
+}
+
+.nav-link-cc:hover::after {
+    width: 100%;
+    left: 0;
+    background: var(--cc-black);
+}
+
+/*Logo Hover Update --- */
+
+/* Targets the text span inside the navbar-brand */
+.navbar-brand span {
+    transition: color 0.3s ease; /* Matches your button transition speed */
+}
+
+/* Changes the color to black (or your preferred hover color) */
+.navbar-brand:hover span {
+    color: var(--cc-black) !important; 
+}
+/* Navbar Border Box */
+.navbar-nav.ms-auto {
+    border: 4px solid var(--cc-black); 
+    padding: 0 10px; 
+    display: flex; 
+    align-items: center; 
+    height: var(--nav-height); 
+    margin-right: 12px !important;
+}
+
+/* Align Nav Buttons to Border Height */
+.ms-lg-3 .btn {
+    height: var(--nav-height) !important;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* --- 4. HERO SECTION --- */
+.hero-text { 
+    font-size: 8.5rem; 
+    color: var(--cc-blue); 
+    line-height: 0.8; 
+    letter-spacing: -5px; 
+}
+
+.hero-section { 
+    margin-top: 60px; 
+    margin-bottom: 30px !important; 
+}
+
+.project-desc { 
+    text-align: justify !important; 
+    line-height: 1.6; 
+}
+
+/* --- 5. BUTTON SYSTEM (MATHEMATICAL CENTERING) --- */
+.btn-cc-base, .btn-primary-cc, .btn-black-square, .btn-blue-square {
+    display: inline-flex; /* Forces perfect centering */
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    text-decoration: none;
+    height: var(--nav-height); 
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    text-align: center;
+    border: none;
+}
+
+.btn-primary-cc { 
+    background-color: var(--cc-blue) !important; 
+    color: white !important; 
+    padding: 0 25px; 
+}
+
+.btn-primary-cc:hover {
+    background-color: var(--cc-black) !important;
+    color: #fff !important;
+}
+
+/* Fixed: Text Centering for Black Buttons */
+.btn-black-square { 
+    background-color: var(--cc-black) !important; 
+    color: #fff !important; 
+    min-width: 140px; 
+    border: 2px solid #fff !important;
+    padding: 0; /* Removing padding allows flex centering to work perfectly */
+}
+
+.btn-black-square:hover {
+    background-color: var(--cc-blue) !important;
+    border-color: var(--cc-blue) !important;
+}
+
+.btn-blue-square { 
+    background-color: var(--cc-blue) !important; 
+    color: #fff !important; 
+    min-width: 200px; 
+    padding: 0 20px; 
+}
+
+.btn-blue-square:hover {
+    background-color: var(--cc-black) !important;
+}
+
+/* --- 6. PROJECT & SERVICES (HOVER ZOOM) --- */
+.project-container, .image-box { 
+    position: relative; 
+    overflow: hidden; 
+}
+
+.project-container img, .image-box img { 
+    transition: transform var(--cc-transition); 
+    width: 100%; 
+    display: block; 
+}
+
+/* Hover Zoom Effect */
+.project-container:hover img, .image-box:hover img { 
+    transform: scale(1.1); 
+}
+
+.button-overlay {
+    margin-top: -24px; 
+    padding-left: 24px;
+    position: relative; 
+    z-index: 10; 
+    display: flex; 
+    gap: 0;
+}
+
+.service-category-title {
+    color: var(--cc-blue); 
+    font-weight: 600; 
+    font-size: 1.25rem;
+    border-bottom: 2px solid var(--cc-blue); 
+    padding-bottom: 10px; 
+    width: 100%;
+}
+
+.image-box { aspect-ratio: 1/1; }
+.image-box.wide { aspect-ratio: 16/9; }
+.image-box img { height: 100%; object-fit: cover; }
+
+.service-text-label {
+    background-color: var(--cc-bg-light); 
+    color: var(--cc-blue);
+    padding: 8px 5px; 
+    margin: 0; 
+    font-size: 0.8rem; 
+    font-weight: 600;
+}
+
+/* --- 7. OFFICIAL PARTNERS --- */
+.partners-row { 
+    background-color: var(--cc-bg-light); 
+    padding: 60px 0; 
+}
+
+.partners-title { 
+    color: var(--cc-blue); 
+    font-weight: 800; 
+    font-size: 1.5rem; 
+    text-transform: uppercase;
+}
+
+.partner-logo { 
+    height: 40px; 
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.partner-logo.logo-lg { height: 65px; } /* */
+.partner-logo.logo-md { height: 50px; }
+
+.partner-logo:hover { transform: scale(1.05); }
+
+/* --- 8. FOOTER --- */
+.main-footer { 
+    background-color: var(--cc-blue); 
+    color: white !important; 
+    padding: 50px 0; 
+}
+
+.footer-divider { 
+    border: none; 
+    border-top: 4px solid var(--cc-black) !important; 
+    opacity: 1; 
+    margin: 0; 
+}
+
+.footer-cc-logo { 
+    height: 50px; /* Reduced for better proportion */
+    width: auto; 
+}
+
+.branding-text-bold { 
+    font-size: 1.5rem; 
+    font-weight: 600 !important; 
+    letter-spacing: 2px; 
+}
+
+.footer-heading { 
+    font-weight: 800 !important; 
+    text-transform: uppercase; 
+    font-size: 1.1rem; 
+    margin-bottom: 1.2rem; 
+}
+
+.footer-text { 
+    font-size: 0.9rem; 
+    line-height: 1.5; 
+    color: white !important; 
+}
+
+/* --- 9. RESPONSIVE --- */
+@media (max-width: 991px) {
+    .hero-text { font-size: 5rem; letter-spacing: -2px; }
+    .button-overlay { margin-top: 0; justify-content: center; }
+    .navbar-nav.ms-auto { height: auto; border: none; }
+}
+
+/* --- 10. SIDEBAR --- */
+/* Custom Sidebar Styles */
+
+#sidebar-wrapper {
+    /* Identical Blue Colour from your reference image */
+    background-color: #72b1e1 !important;
+}
+
+/* Base style for menu items: No borders, white text */
+#sidebar-wrapper .list-group-item {
+    background-color: transparent !important; /* Forces flat blue background */
+    border: none !important; /* Removes all lines and borders */
+    color: white !important;
+    text-decoration: none !important; /* Removes underlines */
+    padding-left: 1.5rem !important; /* Matches reference image spacing */
+    transition: 0.2s;
+}
+
+/* Standard navigation text size: Matches the large-but-not-bold style */
+#sidebar-wrapper .list-group-item span {
+    font-size: 1.15rem; /* ~fs-5 */
+    font-weight: 400; /* Regular weight, not bold */
+}
+
+/* Hover effect: A subtle white tint highlight instead of a solid box */
+#sidebar-wrapper .list-group-item:hover {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    color: white !important;
+}
+
+/* Active Page Indication: Text becomes bold */
+.sidebar-link.active-sidebar-link span {
+    font-weight: 700 !important;
+}
+/* Ensure the wrapper uses the full width and flex layout */
+#wrapper {
+    display: flex !important;
+    width: 100%;
+    align-items: stretch; /* Ensures sidebar and content are same height */
+}
+
+/* The sidebar has a fixed width */
+#sidebar-wrapper {
+    min-width: 280px;
+    max-width: 280px;
+}
+
+/* The content area takes up all remaining space on the right */
+#page-content-wrapper {
+    width: 100%;
+    overflow-x: hidden;
+    background-color: #f8f9fa; /* Light background to contrast the blue sidebar */
+}
+#page-content-wrapper {
+    flex-grow: 1;
+    background-color: #ffffff;
+    /* Matching the 4px dark border used in your sidebar headings */
+    border: 4px solid #212529 !important; 
+    margin: 20px; /* Optional: adds space between the browser edge and the border */
+    border-radius: 0px; /* Optional: matches the slightly rounded look of form inputs */
+}
