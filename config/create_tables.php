@@ -51,6 +51,35 @@ $sql_queries = [
         PRIMARY KEY (UserID, SmeID),
         FOREIGN KEY (UserID) REFERENCES Users(UserID),
         FOREIGN KEY (SmeID) REFERENCES SME(SmeID)
+    )",
+
+    "Category" => "CREATE TABLE IF NOT EXISTS Category (
+        CategoryID INT AUTO_INCREMENT PRIMARY KEY,
+        Name VARCHAR(100) NOT NULL UNIQUE,
+        Type ENUM('Product', 'Service') NOT NULL
+    )",
+
+    "Products_Services" => "CREATE TABLE IF NOT EXISTS Products_Services (
+        ProductID INT AUTO_INCREMENT PRIMARY KEY,
+        SmeID INT,
+        CategoryID INT,
+        Name VARCHAR(150) NOT NULL,
+        Description TEXT,
+        Price DECIMAL(10,2) NOT NULL,
+        Image VARCHAR(255) DEFAULT 'assets/img/no_PS.jpg',
+        Is_Available TINYINT(1) DEFAULT 1,
+        FOREIGN KEY (SmeID) REFERENCES SME(SmeID),
+        FOREIGN KEY (CategoryID) REFERENCES Category(CategoryID)
+    )",
+
+    "Votes" => "CREATE TABLE IF NOT EXISTS Votes (
+        UserID INT,
+        ProductID INT,
+        Vote_Value TINYINT(1),
+        Vote_Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (UserID, ProductID),
+        FOREIGN KEY (UserID) REFERENCES Users(UserID),
+        FOREIGN KEY (ProductID) REFERENCES Products_Services(ProductID)
     )"
 ];
 

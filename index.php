@@ -28,7 +28,7 @@ include 'includes/header.php'; ?>
                     <img src="assets/img/project-group.jpg" class="img-fluid w-100" alt="Project Group">
                     
                     <div class="d-flex button-overlay">
-                        <a href="#" class="btn btn-black-square me-3">Explore</a>
+                        <a href="products-and-services.php" class="btn btn-black-square me-3">Explore</a>
                         <a href="#" class="btn btn-blue-square d-flex justify-content-between align-items-center">
                             Our Project <span class="ms-4 fs-4">→</span>
                         </a>
