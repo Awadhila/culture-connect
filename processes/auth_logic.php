@@ -116,6 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
                 $stmtSmeDetails->execute();
                 $smeDetails = $stmtSmeDetails->get_result()->fetch_assoc();
                 $_SESSION['sme_id'] = $smeMember['SmeID'];
+                $_SESSION['sme_email'] = $smeDetails['Email'];  
                 $_SESSION['sme_member_type'] = $smeMember['Member_Type'];
                 $_SESSION['sme_name'] = $smeDetails['Name'];  
                 $_SESSION['sme_bio'] = $smeDetails['Bio'];

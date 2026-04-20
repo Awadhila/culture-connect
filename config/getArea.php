@@ -20,5 +20,4 @@ if ($result->num_rows > 0) {
     echo "No areas found. Please run the insertion script first.";
 }
 
-$conn->close();
 ?>

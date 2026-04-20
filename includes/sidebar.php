@@ -41,19 +41,13 @@
                 <?php if (isset($_SESSION['is_sme_member']) && $_SESSION['is_sme_member'] === true): ?>
                 <a href="services.php" class="list-group-item list-group-item-action bg-transparent text-white border-0 p-3 d-flex align-items-center text-decoration-none sidebar-link">
                     <img src="assets/img/icons/Product-Service.png" alt="Services" width="22" height="22" class="me-3">
-                    <span class="fs-5 fw-normal">Services</span>
+                    <span class="fs-5 fw-normal">Products & Services</span>
                 </a>
                 <?php endif; ?>
                 <?php if (isset($_SESSION['is_council_member']) && $_SESSION['is_council_member'] === true): ?>
                 <a href="areas.php" class="list-group-item list-group-item-action bg-transparent text-white border-0 p-3 d-flex align-items-center text-decoration-none">
                     <img src="assets/img/icons/area.png" alt="Areas" width="22" class="me-3">
                     <span class="fs-5 fw-normal">Areas</span>
-                </a>
-                <?php endif; ?>
-                <?php if (isset($_SESSION['is_sme_member']) && $_SESSION['is_sme_member'] === true): ?>
-                <a href="sme-profile.php" class="list-group-item list-group-item-action bg-transparent text-white border-0 p-3 d-flex align-items-center text-decoration-none">
-                    <img src="assets/img/icons/profile.png" alt="SME Profile" width="22" class="me-3">
-                    <span class="fs-5 fw-normal">SME Profile</span>
                 </a>
                 <?php endif; ?>
             </div>

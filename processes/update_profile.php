@@ -1,0 +1,106 @@
+<?php
+session_start();
+require_once '../config/connection.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+    $errors = [];
+
+    // 1. Data Collection with Fallbacks (Prevents Nulls)
+    // If the POST field is empty or not set, use the current Session value
+    $firstName = !empty($_POST['first_name']) ? trim($_POST['first_name']) : $_SESSION['first_name'];
+    $lastName  = !empty($_POST['last_name']) ? trim($_POST['last_name']) : $_SESSION['last_name'];
+    $dob       = !empty($_POST['dob']) ? $_POST['dob'] : $_SESSION['dob'];
+    $gender    = !empty($_POST['gender']) ? $_POST['gender'] : $_SESSION['gender'];
+    $interests = !empty($_POST['interests']) ? $_POST['interests'] : $_SESSION['interests'];
+    $areaId    = !empty($_POST['area_id']) ? $_POST['area_id'] : $_SESSION['area_id'];
+    $profileImage = $_SESSION['profile_image']; 
+
+    // 2. Validation: Name (Letters only)
+    if (!preg_match("/^[a-zA-Z ]*$/", $firstName) || !preg_match("/^[a-zA-Z ]*$/", $lastName)) {
+        $errors[] = "Names must only contain letters.";
+    }
+
+    // 3. Validation: Date of Birth (Not more than 100 years ago)
+    $dateOfBirth = new DateTime($dob);
+    $today = new DateTime();
+    $age = $today->diff($dateOfBirth)->y;
+
+    if ($age > 100) {
+        $errors[] = "Date of birth cannot be more than 100 years ago.";
+    } elseif ($dateOfBirth > $today) {
+        $errors[] = "Date of birth cannot be in the future.";
+    }
+
+    // Redirect if there are validation errors
+    if (!empty($errors)) {
+        $errorMsg = implode(" ", $errors);
+        header("Location: ../profile.php?error=" . urlencode($errorMsg));
+        exit();
+    }
+
+    // 4. Handle Profile Image Upload (Fixed tmp_name)
+    if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = '../assets/img/profiles/';
+        if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
+
+        $fileExtension = pathinfo($_FILES['profile_image']['name'], PATHINFO_EXTENSION);
+        $fileName = "user_" . $userId . "_" . time() . "." . $fileExtension;
+        $targetFile = $uploadDir . $fileName;
+
+        if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $targetFile)) {
+            $profileImage = 'assets/img/profiles/' . $fileName;
+        }
+    }
+
+    // 5. Database Update
+    $sql = "UPDATE Users SET 
+            First_Name = ?, 
+            Last_Name = ?, 
+            Date_Of_Birth = ?, 
+            Gender = ?, 
+            Interests = ?, 
+            AreaID = ?, 
+            Profile_Image = ? 
+            WHERE UserID = ?";
+            
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssssisi", $firstName, $lastName, $dob, $gender, $interests, $areaId, $profileImage, $userId);
+
+    if ($stmt->execute()) {
+        // Update Sessions so UI reflects changes
+        $_SESSION['first_name'] = $firstName;
+        $_SESSION['last_name']  = $lastName;
+        $_SESSION['dob']        = $dob;
+        $_SESSION['gender']     = $gender;
+        $_SESSION['interests']  = $interests;
+        $_SESSION['area_id']    = $areaId;
+        $_SESSION['profile_image'] = $profileImage;
+        
+        header("Location: ../profile.php?success=Profile updated successfully");
+    } else {
+        header("Location: ../profile.php?error=Database update failed");
+    }
+    if (isset($_SESSION['is_sme_member']) && $_SESSION['is_sme_member'] === true) {
+        $smeName = !empty($_POST['sme_name']) ? trim($_POST['sme_name']) : $_SESSION['sme_name'];
+        $smeEmail = !empty($_POST['sme_email']) ? trim($_POST['sme_email']) : $_SESSION['sme_email'];
+
+        // Simple Email Validation
+        if (!filter_var($smeEmail, FILTER_VALIDATE_EMAIL)) {
+            header("Location: ../profile.php?error=Invalid business email");
+            exit();
+        }
+
+        $smeSql = "UPDATE SME SET Name = ?, Email = ? WHERE UserID = ?";
+        $stmtSme = $conn->prepare($smeSql);
+        $stmtSme->bind_param("ssi", $smeName, $smeEmail, $userId);
+        
+        if ($stmtSme->execute()) {
+            $_SESSION['sme_name'] = $smeName;
+            $_SESSION['sme_email'] = $smeEmail;
+        }
+    }
+    $stmt->close();
+    $conn->close();
+    exit();
+}
