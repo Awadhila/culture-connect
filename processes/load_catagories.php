@@ -5,11 +5,11 @@ $catagory = $conn->query($sql);
 
 if ($catagory->num_rows > 0) {
     while($row = $catagory->fetch_assoc()) {
-        // Updated logic: check if the session Name OR the filter ID matches
-        $selected = ($current_cat == $row['CategoryID'] || $current_cat == $row['Name']) ? 'selected' : '';
+        // Compare against ID for the selected state
+        $selected = ($current_cat == $row['CategoryID']) ? 'selected' : '';
         
-        // Use Name as the value for the Interest field
-        echo '<option value="' . htmlspecialchars($row["Name"]) . '" ' . $selected . '>' . 
+        // CHANGE: value must be the ID, not the Name
+        echo '<option value="' . $row["CategoryID"] . '" ' . $selected . '>' . 
              htmlspecialchars($row["Name"]) . 
              '</option>';
     }

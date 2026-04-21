@@ -67,39 +67,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("sssssisi", $firstName, $lastName, $dob, $gender, $interests, $areaId, $profileImage, $userId);
 
-    if ($stmt->execute()) {
-        // Update Sessions so UI reflects changes
-        $_SESSION['first_name'] = $firstName;
-        $_SESSION['last_name']  = $lastName;
-        $_SESSION['dob']        = $dob;
-        $_SESSION['gender']     = $gender;
-        $_SESSION['interests']  = $interests;
-        $_SESSION['area_id']    = $areaId;
-        $_SESSION['profile_image'] = $profileImage;
-        
-        header("Location: ../profile.php?success=Profile updated successfully");
-    } else {
-        header("Location: ../profile.php?error=Database update failed");
-    }
-    if (isset($_SESSION['is_sme_member']) && $_SESSION['is_sme_member'] === true) {
+if ($stmt->execute()) {
+    // 1. Update standard User Sessions
+    $_SESSION['first_name'] = $firstName;
+    $_SESSION['last_name']  = $lastName;
+    $_SESSION['dob']        = $dob;
+    $_SESSION['gender']     = $gender;
+    $_SESSION['interests']  = $interests;
+    $_SESSION['area_id']    = $areaId;
+    $_SESSION['profile_image'] = $profileImage;
+
+    // 2. Handle SME/Business Session Updates
+if (isset($_SESSION['is_sme_member']) && $_SESSION['is_sme_member'] === true) {
+    
+    // Ensure we have the SmeID from the session
+    $smeID = $_SESSION['sme_id'] ?? 0;
+
+    if ($smeID > 0) {
         $smeName = !empty($_POST['sme_name']) ? trim($_POST['sme_name']) : $_SESSION['sme_name'];
         $smeEmail = !empty($_POST['sme_email']) ? trim($_POST['sme_email']) : $_SESSION['sme_email'];
 
-        // Simple Email Validation
-        if (!filter_var($smeEmail, FILTER_VALIDATE_EMAIL)) {
-            header("Location: ../profile.php?error=Invalid business email");
-            exit();
-        }
-
-        $smeSql = "UPDATE SME SET Name = ?, Email = ? WHERE UserID = ?";
+        // 1. Update the SME table (Name, Email, and the new AreaID)
+        $smeSql = "UPDATE SME SET Name = ?, Email = ?, AreaID = ? WHERE SmeID = ?";
         $stmtSme = $conn->prepare($smeSql);
-        $stmtSme->bind_param("ssi", $smeName, $smeEmail, $userId);
+        
+        // Bind parameters: Name(s), Email(s), AreaID(i), SmeID(i)
+        $stmtSme->bind_param("ssii", $smeName, $smeEmail, $areaId, $smeID);
         
         if ($stmtSme->execute()) {
+            // 2. Update Sessions so the UI reflects changes immediately
             $_SESSION['sme_name'] = $smeName;
             $_SESSION['sme_email'] = $smeEmail;
+            $_SESSION['area_id'] = $areaId; // Update this to match the new location
         }
     }
+}
+    
+    header("Location: ../profile.php?success=Profile updated successfully");
+} else {
+    header("Location: ../profile.php?error=Database update failed");
+}
     $stmt->close();
     $conn->close();
     exit();

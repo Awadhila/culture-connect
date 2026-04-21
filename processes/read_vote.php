@@ -12,13 +12,15 @@ if ($itemID > 0) {
        - Joins SME (for Creator info and AreaID)
        - Uses a Subquery to check if the specific logged-in user has already voted
     */
-    $sql = "SELECT ps.*, c.Name as CategoryName, c.Type as CategoryType, 
-                   s.Name as SmeName, s.Bio as SmeBio, s.AreaID,
-                   (SELECT COUNT(*) FROM Votes WHERE UserID = ? AND ProductID = ps.ProductID) as UserHasVoted
-            FROM Products_Services ps 
-            JOIN Category c ON ps.CategoryID = c.CategoryID 
-            JOIN SME s ON ps.SmeID = s.SmeID 
-            WHERE ps.ProductID = ? AND ps.Is_Available = 1";
+$sql = "SELECT ps.*, c.Name as CategoryName, c.Type as CategoryType, 
+               s.Name as SmeName, s.Bio as SmeBio, s.AreaID,
+               a.Name as AreaName, -- ADD THIS LINE
+               (SELECT COUNT(*) FROM Votes WHERE UserID = ? AND ProductID = ps.ProductID) as UserHasVoted
+        FROM Products_Services ps 
+        JOIN Category c ON ps.CategoryID = c.CategoryID 
+        JOIN SME s ON ps.SmeID = s.SmeID 
+        JOIN Area a ON s.AreaID = a.AreaID -- ADD THIS JOIN
+        WHERE ps.ProductID = ? AND ps.Is_Available = 1";
     
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ii", $currentUserID, $itemID);

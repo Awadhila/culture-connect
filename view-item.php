@@ -28,8 +28,10 @@ include 'processes/read_vote.php';
                 <div class="ps-md-4">
                     <span class="badge bg-dark rounded-0 mb-2"><?php echo htmlspecialchars($item['CategoryName']); ?></span>
                     <h1 class="fw-bold mb-1"><?php echo htmlspecialchars($item['Name']); ?></h1>
-                    <p class="text-muted mb-4">Provided by: <strong><?php echo htmlspecialchars($item['SmeName']); ?></strong></p>
-                    
+                    <p class="text-muted mb-4">
+                        Provided by: <strong><?php echo htmlspecialchars($item['SmeName']); ?></strong> 
+                        In <strong><?php echo htmlspecialchars($item['AreaName']); ?></strong>
+                    </p>                    
                     <h2 class="fw-bold mb-4" style="color: #72b1e1;">
                         £<?php echo number_format($item['Price'], 2); ?>
                     </h2>
