@@ -1,5 +1,5 @@
 <?php
-require_once 'connection.php'; // Establish the connection to the database
+require_once '../config/connection.php'; // Establish the connection to the database
 
 // 1. Define the query to get all area names and IDs
 $sql = "SELECT AreaID, Name FROM Area WHERE AreaID = ?";

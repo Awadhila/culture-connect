@@ -41,7 +41,7 @@ include 'processes/read_vote.php';
                         <p class="text-secondary"><?php echo nl2br(htmlspecialchars($item['Description'])); ?></p>
                     </div>
 
-                    <div class="d-grid gap-2">
+                    <div class="d-grid gap-3">
                         <?php 
                         $isLoggedIn = isset($_SESSION['user_id']);
                         $isCouncil  = $_SESSION['is_council_member'] ?? false;
@@ -49,23 +49,47 @@ include 'processes/read_vote.php';
                         $userArea   = $_SESSION['area_id'] ?? null;
                         $isSameArea = ($userArea !== null && $userArea == $item['AreaID']);
                         $hasVoted   = ($item['UserHasVoted'] > 0);
+                        $itemLabel  = strtoupper($item['CategoryType']); 
 
-                        if ($isLoggedIn && !$isCouncil && !$isSme && $isSameArea): 
-                            $itemLabel = strtoupper($item['CategoryType']); 
+                        // 1. GUEST CHECK: If not logged in, show "Log In To Vote"
+                        if (!$isLoggedIn): ?>
+                            <h5 class="fw-bold text-center mb-0">VOTE FOR THIS <?php echo $itemLabel; ?></h5>
+                            <a href="authentication-registration/signin.php" class="btn btn-outline-dark btn-lg rounded-0 fw-bold py-3">
+                                LOG IN TO VOTE
+                            </a>
+
+                        <?php 
+                        // 2. ELIGIBILITY CHECK: Only Residents in the same area can vote
+                        elseif (!$isCouncil && !$isSme && $isSameArea): ?>
                             
-                            if ($hasVoted): ?>
+                            <h5 class="fw-bold text-center mb-0">VOTE FOR THIS <?php echo $itemLabel; ?></h5>
+
+                            <?php if ($hasVoted): ?>
                                 <button class="btn btn-success btn-lg rounded-0 fw-bold py-3 disabled" style="opacity: 0.8;">
                                     <?php echo $itemLabel; ?> VOTED
                                 </button>
                             <?php else: ?>
-                                <button id="voteBtn" 
-                                        data-id="<?php echo $itemID; ?>" 
-                                        data-type="<?php echo $itemLabel; ?>"
-                                        class="btn btn-dark btn-lg rounded-0 fw-bold py-3">
-                                    VOTE FOR THIS <?php echo $itemLabel; ?>
-                                </button>
-                            <?php endif; 
-                        endif; ?>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <button class="btn btn-custom-blue btn-lg rounded-0 fw-bold py-3 w-100 btn-vote-yes" 
+                                                onclick="castVote(<?php echo $itemID; ?>, 1)">
+                                            YES
+                                        </button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button class="btn btn-custom-blue btn-lg rounded-0 fw-bold py-3 w-100 btn-vote-no" 
+                                                onclick="castVote(<?php echo $itemID; ?>, 0)">
+                                            NO
+                                        </button>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+
+                        <?php 
+                        // 3. RESTRICTION MESSAGE (Optional): If logged in but wrong area or role
+                        elseif ($isLoggedIn && !$isSameArea && !$isCouncil && !$isSme): ?>
+                            <p class="text-danger fw-bold text-center small">Voting is only available for residents of <?php echo htmlspecialchars($item['AreaName']); ?>.</p>
+                        <?php endif; ?>
 
                         <button class="btn btn-outline-dark btn-lg rounded-0 fw-bold py-3">CONTACT SME</button>
                     </div>
@@ -83,7 +107,7 @@ include 'processes/read_vote.php';
         </div>
     </div>
 </main>
-<script src="assets/js/cast-vote.js"></script>
+<script src="./assets/js/cast-vote.js"></script>
 <?php 
 $stmt->close();
 $conn->close();

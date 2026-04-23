@@ -2,13 +2,13 @@
 session_start();
 // Restrict access to council members only as per sidebar logic
 if (!isset($_SESSION['is_council_member']) || $_SESSION['is_council_member'] !== true) {
-    header("Location: index.php");
+    header("Location: ../index.php");
     exit();
 }
 
 $pageTitle = "Manage Areas - Culture Connect";
-include 'includes/sidebar.php'; 
-require_once 'config/connection.php';
+include '../includes/sidebar.php'; 
+require_once '../config/connection.php';
 ?>
 
 <div id="page-content-wrapper" class="flex-grow-1 p-5">
@@ -42,6 +42,10 @@ require_once 'config/connection.php';
                             <button class="btn btn-sm btn-outline-primary rounded-0" 
                                     onclick="prepareEdit(<?php echo $row['AreaID']; ?>, '<?php echo addslashes($row['Name']); ?>')"
                                     data-bs-toggle="modal" data-bs-target="#areaModal">Edit</button>
+                            <button class="btn btn-sm btn-outline-danger rounded-0" 
+                                    onclick="confirmDeepDelete(<?php echo $row['AreaID']; ?>, '<?php echo htmlspecialchars($row['Name']); ?>')">
+                                Delete
+                            </button>
                         </td>
                     </tr>
                     <?php endwhile; else: ?>
@@ -56,7 +60,7 @@ require_once 'config/connection.php';
 <div class="modal fade" id="areaModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded-0 border-2 border-dark">
-            <form action="processes/manage_areas.php" method="POST">
+            <form action="../processes/manage_areas.php" method="POST">
                 <div class="modal-header">
                     <h5 class="modal-title fw-bold" id="modalTitle">Add New Area</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -77,9 +81,21 @@ require_once 'config/connection.php';
     </div>
 </div>
 
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
 <script>
+function confirmDeepDelete(id, name) {
+    const message = `WARNING: DESTRUCTIVE ACTION\n\nDeleting the area "${name}" will permanently delete:\n` +
+                    `- ALL Users in this area\n` +
+                    `- ALL SMEs/Businesses in this area\n` +
+                    `- ALL Products and Services from those businesses\n` +
+                    `- ALL Votes associated with those products\n\n` +
+                    `Are you absolutely sure you want to proceed?`;
+    
+    if (confirm(message)) {
+        // Redirect to manage_areas.php with the delete_id
+        window.location.href = "../processes/manage_areas.php?delete_id=" + id;
+    }
+}
 function prepareAdd() {
     console.log("Add button clicked"); // Debugging line
     document.getElementById('modalTitle').innerText = "Add New Area";

@@ -4,14 +4,14 @@
             <h5 class="partners-title mb-5">Official Partners</h5>
             
             <div class="d-flex justify-content-center align-items-center gap-5 mb-4 flex-wrap">
-                <img src="assets/img/partners/uni-herts.png" alt="University Logo" class="partner-logo logo-lg">
-                <img src="assets/img/partners/trello.png" alt="Trello" class="partner-logo">
-                <img src="assets/img/partners/xampp.png" alt="XAMPP" class="partner-logo">
+                <img src="/culture-connect/assets/img/partners/uni-herts.png" alt="University Logo" class="partner-logo logo-lg">
+                <img src="/culture-connect/assets/img/partners/trello.png" alt="Trello" class="partner-logo">
+                <img src="/culture-connect/assets/img/partners/xampp.png" alt="XAMPP" class="partner-logo">
             </div>
             
             <div class="d-flex justify-content-center align-items-center gap-5 flex-wrap">
-                <img src="assets/img/partners/vs-code.png" alt="VS Code" class="partner-logo logo-md">
-                <img src="assets/img/partners/html5.png" alt="HTML5" class="partner-logo logo-md">
+                <img src="/culture-connect/assets/img/partners/vs-code.png" alt="VS Code" class="partner-logo logo-md">
+                <img src="/culture-connect/assets/img/partners/html5.png" alt="HTML5" class="partner-logo logo-md">
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
                 <div class="col-md-4 text-center mb-4">
                     <div class="d-inline-flex align-items-center branding-group">
                         <span class="branding-text-bold me-3">CULTURE</span>
-                        <img src="assets/img/partners/Logo.png" alt="Logo" class="footer-cc-logo">
+                        <img src="/culture-connect/assets/img/partners/Logo.png" alt="Logo" class="footer-cc-logo">
                         <span class="branding-text-bold ms-3">CONNECT</span>
                     </div>
                 </div>
@@ -72,6 +72,6 @@
         </div>
     </div>
 </footer>
-<script src="/culture-connect/assets/js/bootstrap.bundle.min.js"></script>
+<script src="./assets/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

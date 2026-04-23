@@ -34,7 +34,7 @@ $pageTitle = "Sign In - Culture Connect";
                             </span>
                         </div>
                     <?php endif; ?>
-                    <form id="SignInForm"action="processes/auth_logic.php" method="POST" onsubmit="return validateForm();" novalidate>
+                    <form id="SignInForm"action="../processes/auth_logic.php" method="POST" onsubmit="return validateForm();" novalidate>
                         <div class="mb-3">
                             <label class="form-label fw-bold small text-uppercase">Email Address<span id="error-email" class="text-danger small fw-bold ms-2"></span></label>
                             <input type="email" class="form-control form-control-lg border-2 border-dark" name="email" required style="border-radius: 0 !important;">
@@ -51,7 +51,7 @@ $pageTitle = "Sign In - Culture Connect";
                     </form>
                     <script src="assets/js/signin.js"></script>
                     <div class="text-center">
-                        <a href="index.php" class="text-decoration-none fw-bold small" style="color: #72b1e1;">
+                        <a href="../index.php" class="text-decoration-none fw-bold small" style="color: #72b1e1;">
                             ← BACK TO HOME
                         </a>
                     </div>
@@ -61,4 +61,4 @@ $pageTitle = "Sign In - Culture Connect";
     </div>
 </main>
 
-<?php include 'includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>

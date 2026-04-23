@@ -14,7 +14,7 @@ if ($itemID > 0) {
     */
 $sql = "SELECT ps.*, c.Name as CategoryName, c.Type as CategoryType, 
                s.Name as SmeName, s.Bio as SmeBio, s.AreaID,
-               a.Name as AreaName, -- ADD THIS LINE
+               a.Name as AreaName, 
                (SELECT COUNT(*) FROM Votes WHERE UserID = ? AND ProductID = ps.ProductID) as UserHasVoted
         FROM Products_Services ps 
         JOIN Category c ON ps.CategoryID = c.CategoryID 
@@ -31,7 +31,7 @@ $sql = "SELECT ps.*, c.Name as CategoryName, c.Type as CategoryType,
 
 // 3. Redirect if item doesn't exist or is unavailable
 if (!$item) {
-    header("Location: products-and-services.php");
+    header("Location: ../products-and-services.php");
     exit();
 }
 

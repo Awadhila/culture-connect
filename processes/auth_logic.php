@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['first_name'])) {
         }
 
         $conn->commit();
-        header("Location: ../signin.php?success=account_created");
+        header("Location: ../authentication-registration/signin.php?success=account_created");
         exit();
     } catch (Exception $e) {
         $conn->rollback();

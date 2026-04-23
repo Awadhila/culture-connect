@@ -1,8 +1,8 @@
 <?php 
 session_start();
 $pageTitle = "Profile - Culture Connect";
-include 'includes/sidebar.php'; 
-require_once 'config/connection.php';
+include '../includes/sidebar.php'; 
+require_once '../config/connection.php';
 
 // Check if user has already voted to determine if Area can be changed
 $userID = $_SESSION['user_id'];
@@ -18,11 +18,11 @@ $hasVoted = ($stmtVote->get_result()->fetch_assoc()['vote_count'] > 0);
         <h2 class="fw-bold">My Profile</h2>
     </div>
     
-    <form action="processes/update_profile.php" method="POST" enctype="multipart/form-data">
+    <form action="../processes/update_profile.php" method="POST" enctype="multipart/form-data">
         <div class="row align-items-start">
             <div class="col-md-5">
                 <div style="border: 3px solid #72b1e1; padding: 5px; position: relative;">
-                    <img src="<?php echo $_SESSION['profile_image'] ?>" id="profilePreview" alt="Profile Picture" class="img-fluid" style="display: block; width: 100%;">
+                    <img src="../<?php echo $_SESSION['profile_image'] ?>" id="profilePreview" alt="Profile Picture" class="img-fluid" style="display: block; width: 100%;">
                     <div class="mt-2">
                         <input type="file" name="profile_image" id="profileInput" class="form-control border-2 border-dark rounded-0 d-none" accept="image/*">
                         <button type="button" class="btn btn-sm btn-dark rounded-0 w-100 mt-2 edit-btn" onclick="document.getElementById('profileInput').classList.toggle('d-none')">Change Photo</button>
@@ -92,7 +92,7 @@ $hasVoted = ($stmtVote->get_result()->fetch_assoc()['vote_count'] > 0);
                                 <input type="hidden" name="area_id" value="<?php echo $_SESSION['area_id']; ?>">
                                 
                                 <span class="field-text d-block">
-                                    <?php require 'config/getArea.php'; ?>
+                                    <?php require '../processes/getArea.php'; ?>
                                 </span>
                                 
                                 <div class="text-muted small italic mt-1" style="font-size: 0.75rem; line-height: 1;">
@@ -112,7 +112,7 @@ $hasVoted = ($stmtVote->get_result()->fetch_assoc()['vote_count'] > 0);
                                     ?>
                                 </select>
                                 <span class="field-text">
-                                    <?php require 'config/getArea.php'; ?>
+                                    <?php require '../processes/getArea.php'; ?>
                                 </span>
                             <?php endif; ?>
                         </div>
@@ -133,7 +133,7 @@ $hasVoted = ($stmtVote->get_result()->fetch_assoc()['vote_count'] > 0);
                                 <?php 
                                     // Set current_cat to Name for the 'selected' check in load_catagories.php
                                     $current_cat = $_SESSION['interests'] ?? ''; 
-                                    include 'processes/load_catagories.php'; 
+                                    include '../processes/load_catagories.php'; 
                                 ?>
                             </select>
 
@@ -208,7 +208,7 @@ $hasVoted = ($stmtVote->get_result()->fetch_assoc()['vote_count'] > 0);
     </form>
 </div>
 
-<script src="assets/js/update_profile.js"></script>
+<script src="../assets/js/update_profile.js"></script>
 <?php   
 if (isset($conn)) {
     $conn->close(); 

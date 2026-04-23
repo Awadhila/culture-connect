@@ -6,8 +6,8 @@ if (!isset($_SESSION['is_sme_member']) || $_SESSION['is_sme_member'] !== true) {
 }
 
 $pageTitle = "My Products & Services";
-include 'includes/sidebar.php'; 
-require_once 'config/connection.php';
+include '../includes/sidebar.php'; 
+require_once '../config/connection.php';
 
 $smeID = $_SESSION['sme_id']; 
 
@@ -59,7 +59,7 @@ if ($totalItems > 0) {
         <?php if ($service): ?>
         <div class="card border-2 border-dark rounded-0 p-4 product-card">
             <div class="product-body">
-                <form action="processes/manage_services.php" method="POST" enctype="multipart/form-data" id="serviceForm">
+                <form action="../processes/manage_services.php" method="POST" enctype="multipart/form-data" id="serviceForm">
                     <input type="hidden" name="product_id" value="<?php echo $service['ProductID']; ?>">
                     <input type="hidden" name="current_idx" value="<?php echo $currentIndex; ?>">
                     <input type="hidden" name="current_image" value="<?php echo $service['Image']; ?>">
@@ -67,7 +67,7 @@ if ($totalItems > 0) {
                     <div class="row">
                         <div class="col-md-4">
                             <div class="service-preview-container p-2 mb-3">
-                                <img src="<?php echo $service['Image']; ?>" id="servicePreview" class="img-fluid">
+                                <img src="../<?php echo $service['Image']; ?>" id="servicePreview" class="img-fluid">
                             </div>
                             <input type="file" name="service_image" id="serviceImageInput" class="d-none" accept="image/*">
                             <button type="button" class="btn btn-sm btn-dark rounded-0 w-100 mb-3" onclick="document.getElementById('serviceImageInput').click()">Change Photo</button>
@@ -91,7 +91,7 @@ if ($totalItems > 0) {
                                 <select name="category_id" class="form-select border-dark rounded-0 d-none">
                                     <?php 
                                         $current_cat = $service['CategoryID']; 
-                                        include 'processes/load_catagories.php'; 
+                                        include '../processes/load_catagories.php'; 
                                     ?>
                                 </select>
                                 <div class="field-text p-2"><?php echo htmlspecialchars($service['CategoryName'] ?? 'Uncategorized'); ?></div>
@@ -144,13 +144,13 @@ if ($totalItems > 0) {
 <div class="modal fade" id="serviceModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-2 border-dark rounded-0">
-            <form action="processes/manage_services.php" method="POST" enctype="multipart/form-data">
+            <form action="../processes/manage_services.php" method="POST" enctype="multipart/form-data">
                 <div class="modal-header"><h5>Add New Item</h5></div>
                 <div class="modal-body">
                     <input type="text" name="name" placeholder="Name" class="form-control mb-3 rounded-0" required>
                     <select name="category_id" class="form-select mb-3 rounded-0" required>
                         <option value="" disabled selected>Select Category</option>
-                        <?php $current_cat = ""; include 'processes/load_catagories.php'; ?>
+                        <?php $current_cat = ""; include '../processes/load_catagories.php'; ?>
                     </select>
                     <textarea name="description" placeholder="Description" class="form-control mb-3 rounded-0" required></textarea>
                     <input type="number" step="0.01" name="price" placeholder="Price" class="form-control mb-3 rounded-0" required>
@@ -164,11 +164,11 @@ if ($totalItems > 0) {
     </div>
 </div>
 
-<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
 <script>
 function confirmDelete(id) {
     if (confirm("Are you sure? This will delete the product and all associated votes.")) {
-        window.location.href = "processes/manage_services.php?delete_id=" + id;
+        window.location.href = "../processes/manage_services.php?delete_id=" + id;
     }
 }
 

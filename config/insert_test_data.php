@@ -148,6 +148,114 @@ foreach ($smeData as $data) {
     }
     echo "SME '{$data['name']}' data inserted successfully.<br>";
 }
+// --- SECTION: ADD 50 RESIDENT USERS ---
+echo "<h3>Generating 50 Resident Users...</h3>";
 
-echo "<h3>Setup Complete. 100 items verified with JPG images.</h3>";
+$firstNames = ['James', 'Mary', 'Robert', 'Patricia', 'John', 'Jennifer', 'Michael', 'Linda', 'David', 'Elizabeth', 'William', 'Barbara', 'Richard', 'Susan', 'Joseph', 'Jessica', 'Thomas', 'Sarah', 'Charles', 'Karen'];
+$lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez', 'Hernandez', 'Lopez', 'Gonzales', 'Wilson', 'Anderson', 'Thomas', 'Taylor', 'Moore', 'Jackson', 'Martin'];
+$genders = ['Male', 'Female']; 
+
+// Dynamically fetch Interests from the Category table
+$interestsPool = [];
+$catRes = $conn->query("SELECT Name FROM Category");
+while($cRow = $catRes->fetch_assoc()) {
+    $interestsPool[] = $cRow['Name'];
+}
+
+// Get Area IDs
+$areaIds = [];
+$areaRes = $conn->query("SELECT AreaID FROM Area");
+while($aRow = $areaRes->fetch_assoc()) {
+    $areaIds[] = $aRow['AreaID'];
+}
+
+$residentPass = password_hash("Resident123", PASSWORD_DEFAULT);
+$resCount = 0;
+
+$stmtRes = $conn->prepare("INSERT IGNORE INTO Users (Email, Password, First_Name, Last_Name, Date_Of_Birth, Gender, AreaID, Interests) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+
+for ($i = 1; $i <= 50; $i++) {
+    $fn = $firstNames[array_rand($firstNames)];
+    $ln = $lastNames[array_rand($lastNames)];
+    $email = strtolower($fn . "." . $ln . $i . rand(100, 999) . "@example.com");
+    $gender = $genders[array_rand($genders)];
+    $area = $areaIds[array_rand($areaIds)];
+    $dob = date("Y-m-d", mt_rand(strtotime('1975-01-01'), strtotime('2005-12-31')));
+    
+    // UPDATED: Pick exactly ONE random interest from the pool
+    $selectedInterest = $interestsPool[array_rand($interestsPool)];
+
+    $stmtRes->bind_param("ssssssis", $email, $residentPass, $fn, $ln, $dob, $gender, $area, $selectedInterest);
+    
+    if ($stmtRes->execute()) {
+        $resCount++;
+    }
+}
+
+echo "Successfully added <strong>$resCount</strong> residents with unique single interests.<br>";
+//  Generate Random Votes for Residents
+echo "<h3>Generating District-Based Votes...</h3>";
+
+// Get all residents (excluding Council and SME accounts)
+$residentsRes = $conn->query("SELECT UserID, AreaID FROM Users WHERE AreaID IS NOT NULL");
+$residents = [];
+while ($r = $residentsRes->fetch_assoc()) {
+    $residents[] = $r;
+}
+
+// Prepare the Vote insertion statement
+// 4. Generate Random Votes for Residents Only
+echo "<h3>Generating Resident-Only Votes...</h3>";
+
+// Select users who are NOT in the Council_Members or SME_Members tables
+$residentsRes = $conn->query("
+    SELECT UserID, AreaID FROM Users 
+    WHERE AreaID IS NOT NULL 
+    AND UserID NOT IN (SELECT UserID FROM Council_Members)
+    AND UserID NOT IN (SELECT UserID FROM SME_Members)
+");
+
+$residents = [];
+while ($r = $residentsRes->fetch_assoc()) {
+    $residents[] = $r;
+}
+
+// Prepare the Vote insertion statement
+// INSERT IGNORE prevents duplicate votes if the script is run twice
+$stmtVote = $conn->prepare("INSERT IGNORE INTO Votes (UserID, ProductID, Vote_Value) VALUES (?, ?, ?)");
+
+$voteCount = 0;
+
+foreach ($residents as $resident) {
+    $resID = $resident['UserID'];
+    $resArea = $resident['AreaID'];
+
+    // Find all Products/Services created by SMEs in this resident's area
+    $psSql = "SELECT ps.ProductID FROM Products_Services ps 
+              JOIN SME s ON ps.SmeID = s.SmeID 
+              WHERE s.AreaID = ?";
+    
+    $psStmt = $conn->prepare($psSql);
+    $psStmt->bind_param("i", $resArea);
+    $psStmt->execute();
+    $psResult = $psStmt->get_result();
+
+    while ($psRow = $psResult->fetch_assoc()) {
+        $productID = $psRow['ProductID'];
+        
+        // Randomize Vote: 1 for Yes, 0 for No
+        $randomVote = rand(0, 1); 
+
+        $stmtVote->bind_param("iii", $resID, $productID, $randomVote);
+        if ($stmtVote->execute()) {
+            $voteCount++;
+        }
+    }
+    $psStmt->close();
+}
+
+echo "<p>Successfully generated <strong>$voteCount</strong> resident-only votes (SMEs and Council excluded).</p>";
+// Close connection at the very end
+echo "<br><strong>Population Complete!</strong>";
+
 ?>

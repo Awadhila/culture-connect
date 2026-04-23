@@ -18,9 +18,9 @@ if (isset($_GET['delete_id'])) {
     $delProd->bind_param("ii", $productID, $smeID);
     
     if ($delProd->execute()) {
-        header("Location: ../services.php?idx=1&success=deleted");
+        header("Location: ../management/manage_PS_SME.php?idx=1&success=deleted");
     } else {
-        header("Location: ../services.php?error=delete_failed");
+        header("Location: ../management/manage_PS_SME.php?error=delete_failed");
     }
     exit();
 }
@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Type mapping: s=string, d=double, i=int
         $stmt->bind_param("ssdisii", $name, $desc, $price, $catID, $imagePath, $productID, $smeID);
         $stmt->execute();
-        header("Location: ../services.php?idx=$idx&success=updated");
+        header("Location: ../management/manage_PS_SME.php?idx=$idx&success=updated");
     } else {
         // INSERT Logic
         $sql = "INSERT INTO Products_Services (Name, Description, Price, CategoryID, SmeID, Image) VALUES (?, ?, ?, ?, ?, ?)";
@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Redirect to the last page to show the newly added item
         $res = $conn->query("SELECT COUNT(*) as total FROM Products_Services WHERE SmeID = $smeID");
         $newTotal = $res->fetch_assoc()['total'];
-        header("Location: ../services.php?idx=$newTotal&success=added");
+        header("Location: ../management/manage_PS_SME.php?idx=$newTotal&success=added");
     }
     exit();
 }

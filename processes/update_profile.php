@@ -12,10 +12,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
     $lastName  = !empty($_POST['last_name']) ? trim($_POST['last_name']) : $_SESSION['last_name'];
     $dob       = !empty($_POST['dob']) ? $_POST['dob'] : $_SESSION['dob'];
     $gender    = !empty($_POST['gender']) ? $_POST['gender'] : $_SESSION['gender'];
-    $interests = !empty($_POST['interests']) ? $_POST['interests'] : $_SESSION['interests'];
+    $interestID = !empty($_POST['interests']) ? $_POST['interests'] : $_SESSION['interests'];
+    $interests = $_SESSION['interests']; // Fallback to current session value
     $areaId    = !empty($_POST['area_id']) ? $_POST['area_id'] : $_SESSION['area_id'];
     $profileImage = $_SESSION['profile_image']; 
-
     // 2. Validation: Name (Letters only)
     if (!preg_match("/^[a-zA-Z ]*$/", $firstName) || !preg_match("/^[a-zA-Z ]*$/", $lastName)) {
         $errors[] = "Names must only contain letters.";
@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
     // Redirect if there are validation errors
     if (!empty($errors)) {
         $errorMsg = implode(" ", $errors);
-        header("Location: ../profile.php?error=" . urlencode($errorMsg));
+        header("Location: ../management/manage_profile.php?error=" . urlencode($errorMsg));
         exit();
     }
 
@@ -52,8 +52,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['user_id'])) {
             $profileImage = 'assets/img/profiles/' . $fileName;
         }
     }
-
-    // 5. Database Update
+    // 6. If a new interest was selected, convert the ID to a Name
+    if ($interestID && is_numeric($interestID)) {
+        $catSql = "SELECT Name FROM Category WHERE CategoryID = ?";
+        $stmtCat = $conn->prepare($catSql);
+        $stmtCat->bind_param("i", $interestID);
+        $stmtCat->execute();
+        $resCat = $stmtCat->get_result();
+        
+        if ($rowCat = $resCat->fetch_assoc()) {
+            // Set the variable to the Name (e.g., "Handicrafts") instead of the ID (e.g., "4")
+            $interests = $rowCat['Name'];
+        }
+        $stmtCat->close();
+    }
+    // 7. Database Update
     $sql = "UPDATE Users SET 
             First_Name = ?, 
             Last_Name = ?, 
@@ -76,7 +89,7 @@ if ($stmt->execute()) {
     $_SESSION['interests']  = $interests;
     $_SESSION['area_id']    = $areaId;
     $_SESSION['profile_image'] = $profileImage;
-
+    $_SESSION['interests'] = $interests;
     // 2. Handle SME/Business Session Updates
 if (isset($_SESSION['is_sme_member']) && $_SESSION['is_sme_member'] === true) {
     
@@ -103,9 +116,9 @@ if (isset($_SESSION['is_sme_member']) && $_SESSION['is_sme_member'] === true) {
     }
 }
     
-    header("Location: ../profile.php?success=Profile updated successfully");
+    header("Location: ../management/manage_profile.php?success=Profile updated successfully");
 } else {
-    header("Location: ../profile.php?error=Database update failed");
+    header("Location: ../management/manage_profile.php?error=Database update failed");
 }
     $stmt->close();
     $conn->close();

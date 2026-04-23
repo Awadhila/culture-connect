@@ -1,6 +1,7 @@
 <?php 
 $pageTitle = "Register - Culture Connect";
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +23,7 @@ $pageTitle = "Register - Culture Connect";
                         <h2 class="fw-bold" style="color: #72b1e1; letter-spacing: -1px;">CREATE ACCOUNT</h2>
                         <p class="text-muted small">Join the Culture Connect community today.</p>
                     </div>
-                    <form id="registrationForm" action="processes/auth_logic.php" method="POST" onsubmit="event.preventDefault(); validateForm();" novalidate>
+                    <form id="registrationForm" action="../processes/auth_logic.php" method="POST" onsubmit="event.preventDefault(); validateForm();" novalidate>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold small text-uppercase">First Name <span id="error-first_name" class="text-danger small fw-bold ms-2"></span></label> 
@@ -71,7 +72,9 @@ $pageTitle = "Register - Culture Connect";
                         <div class="mb-4">
                             <label class="form-label fw-bold small text-uppercase">Area <span id="error-area_id" class="text-danger small fw-bold ms-2"></span></label>
                             <select class="form-select border-2 border-dark" name="area_id" style="border-radius: 0 !important;" required>
-                                <?php include 'config/getAreasAvail.php'; ?>
+                                <?php include '../processes/getAreasAvail.php'; 
+                                ?>
+
                             </select>
                         </div>
 
@@ -97,12 +100,11 @@ $pageTitle = "Register - Culture Connect";
                             REGISTER NOW
                         </button>
                     </form>
-                    <script src="assets/js/registration.js"></script>
-                    <div class="text-center">
-                        <p class="small fw-bold">Already have an account? <a href="signin.php" style="color: #72b1e1;">Log In</a></p>
-                        <a href="index.php" class="text-decoration-none fw-bold small" style="color: #72b1e1;">
-                            ← BACK TO HOME
-                        </a>
+                    <script src="/culture-connect/assets/js/registration.js"></script>                    <div class="text-center">
+                    <p class="small fw-bold">Already have an account? <a href="signin.php" style="color: #72b1e1;">Log In</a></p>
+                    <a href="index.php" class="text-decoration-none fw-bold small" style="color: #72b1e1;">
+                        ← BACK TO HOME
+                    </a>
                     </div>
                 </div>
             </div>
@@ -110,4 +112,4 @@ $pageTitle = "Register - Culture Connect";
     </div>
 </main>
 
-<?php include 'includes/footer.php'; ?>
+<?php include '../includes/footer.php';?>
