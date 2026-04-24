@@ -1,24 +1,3 @@
-/* Universal Background Logic */
-body::before {
-    content: "";
-    position: fixed; 
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-image: url('../img/Background.jpg'); 
-    background-size: cover; /* Use cover once your image is 1920x1080 */
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.35; /* Keeping it at 1 for your current testing */
-    z-index: -100; 
-    pointer-events: none; 
-}
-
-body {
-    /* Ensure no solid color is blocking the image */
-    background-color: #f1f8fc !important; 
-}
 /* --- 1. CORE BRAND VARIABLES --- */
 :root {
     --cc-blue: #72b1e1;

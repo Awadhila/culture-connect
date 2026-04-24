@@ -15,13 +15,22 @@ $pageTitle = "Sign In - Culture Connect";
                             <a href="signup.php" class="text-decoration-none" style="color: #72b1e1;">Click here to create one</a>
                         </p>
                     </div>
-                    <?php if (isset($_GET['error']) && $_GET['error'] == 'invalid_credentials'): ?>
-                        <div class="alert alert-danger border-2 border-dark py-2 mb-3 d-flex align-items-center" style="border-radius: 0;">
-                            <span class="fw-bold small text-uppercase">
-                                <i class="bi bi-exclamation-triangle-fill me-2"></i> 
-                                Invalid email or password. Please try again.
-                            </span>
-                        </div>
+                    <?php if (isset($_GET['error'])): ?>
+                        <?php if ($_GET['error'] == 'invalid_credentials'): ?>
+                            <div class="alert alert-danger border-2 border-dark py-2 mb-3 d-flex align-items-center" style="border-radius: 0;">
+                                <span class="fw-bold small text-uppercase">
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i> 
+                                    Invalid password. Please try again.
+                                </span>
+                            </div>
+                        <?php elseif ($_GET['error'] == 'user_not_found'): ?>
+                            <div class="alert alert-warning border-2 border-dark py-2 mb-3 d-flex align-items-center" style="border-radius: 0;">
+                                <span class="fw-bold small text-uppercase">
+                                    <i class="bi bi-person-x-fill me-2"></i> 
+                                    User doesn't exist.
+                                </span>
+                            </div>
+                        <?php endif; ?>
                     <?php endif; ?>
                     <form id="SignInForm"action="../processes/auth_logic.php" method="POST" onsubmit="return validateForm();" novalidate>
                         <div class="mb-3">

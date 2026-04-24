@@ -99,19 +99,19 @@ if (isset($_SESSION['is_sme_member']) && $_SESSION['is_sme_member'] === true) {
     if ($smeID > 0) {
         $smeName = !empty($_POST['sme_name']) ? trim($_POST['sme_name']) : $_SESSION['sme_name'];
         $smeEmail = !empty($_POST['sme_email']) ? trim($_POST['sme_email']) : $_SESSION['sme_email'];
-
+        $smeBio = isset($_POST['sme_bio']) ? trim($_POST['sme_bio']) : $_SESSION['sme_bio'];
         // 1. Update the SME table (Name, Email, and the new AreaID)
-        $smeSql = "UPDATE SME SET Name = ?, Email = ?, AreaID = ? WHERE SmeID = ?";
+        $smeSql = "UPDATE SME SET Name = ?, Email = ?, AreaID = ?, Bio = ? WHERE SmeID = ?";
         $stmtSme = $conn->prepare($smeSql);
         
-        // Bind parameters: Name(s), Email(s), AreaID(i), SmeID(i)
-        $stmtSme->bind_param("ssii", $smeName, $smeEmail, $areaId, $smeID);
-        
+        // Bind parameters: Name(s), Email(s), AreaID(i), Bio(s), SmeID(i)
+        $stmtSme->bind_param("ssisi", $smeName, $smeEmail, $areaId, $smeBio, $smeID);        
         if ($stmtSme->execute()) {
             // 2. Update Sessions so the UI reflects changes immediately
             $_SESSION['sme_name'] = $smeName;
             $_SESSION['sme_email'] = $smeEmail;
             $_SESSION['area_id'] = $areaId; // Update this to match the new location
+            $_SESSION['sme_bio'] = $smeBio;
         }
     }
 }

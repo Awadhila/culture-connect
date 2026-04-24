@@ -72,7 +72,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     $stmtUser->execute();
     $result = $stmtUser->get_result();
 
-    if ($result->num_rows == 1) {
+
+
+    if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
         if (password_verify($password, $user['Password'])) {
             // Login successful
@@ -126,11 +128,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
             header("Location: ../index.php");
             exit();
         } else {
-            header("Location: ../signin.php?error=invalid_credentials");
-            exit();
+            header("Location: ../authentication-registration/signin.php?error=invalid_credentials");            exit();
         }
     } else {
-        header("Location: ../signin.php?error=invalid_credentials");
+        header("Location: ../authentication-registration/signin.php?error=user_not_found");
         exit();
     }
 }

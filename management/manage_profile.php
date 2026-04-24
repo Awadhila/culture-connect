@@ -179,7 +179,6 @@ $hasVoted = ($stmtVote->get_result()->fetch_assoc()['vote_count'] > 0);
                             <button type="button" class="btn btn-sm btn-outline-primary rounded-0 edit-trigger">Edit</button>
                         </div>
                     </div>
-
                     <div class="row mb-3 align-items-center">
                         <div class="col-4 fw-normal">Products & Services</div>
                         <div class="col-1 text-center">:</div>
@@ -196,6 +195,25 @@ $hasVoted = ($stmtVote->get_result()->fetch_assoc()['vote_count'] > 0);
                             <span class="badge bg-dark rounded-0 fs-6"><?php echo $serviceCount; ?> Items Listed</span>
                         </div>
                     </div>
+                    <div class="row mb-4">
+                        <div class="col-10 pb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label class="fw-bold text-uppercase small" >Business Bio</label>
+                            </div>
+                        </div>
+                        <div class="col-2 ps-3">
+                            <button type="button" class="btn btn-sm btn-outline-primary rounded-0 edit-trigger">Edit</button>
+                        </div>
+                        <div class="col-11">
+                                <div class="field-text p-3 border border-2 border-dark bg-light" style="min-height: 120px; white-space: pre-wrap;"><?php echo htmlspecialchars($_SESSION['sme_bio'] ?? 'No bio available.'); ?></div>
+                                <textarea name="sme_bio" claas= "justify-content-start align-items-start" 
+                                        class="form-control border-2 border-dark rounded-0 d-none" 
+                                        rows="5" 
+                                        placeholder="Describe your business..."><?php echo htmlspecialchars($_SESSION['sme_bio'] ?? ''); ?>
+                                </textarea>
+                        </div>
+                    </div>
+
                 <?php endif; ?>
                     <div class="row mt-4">
                         <div class="col-10">

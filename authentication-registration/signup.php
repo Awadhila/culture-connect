@@ -92,7 +92,7 @@ $pageTitle = "Register - Culture Connect";
                     <script src="../assets/js/registration.js"></script>                    
                     <div class="text-center">
                         <p class="small fw-bold">Already have an account? <a href="signin.php" style="color: #72b1e1;">Log In</a></p>
-                        <a href="index.php" class="text-decoration-none fw-bold small" style="color: #72b1e1;">
+                        <a href="../index.php" class="text-decoration-none fw-bold small" style="color: #72b1e1;">
                             ← BACK TO HOME
                         </a>
                     </div>

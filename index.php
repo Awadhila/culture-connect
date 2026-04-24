@@ -32,7 +32,7 @@ include 'includes/header.php'; ?>
                     
                     <div class="d-flex button-overlay">
                         <a href="products-and-services.php" class="btn btn-black-square me-3">Explore</a>
-                        <a href="#" class="btn btn-blue-square d-flex justify-content-between align-items-center">
+                        <a href="about.php" class="btn btn-blue-square d-flex justify-content-between align-items-center">
                             Our Project <span class="ms-4 fs-4">→</span>
                         </a>
                     </div>
@@ -56,7 +56,7 @@ include 'includes/header.php'; ?>
     </div>
     <section class="services-section py-5">
         <div class="container">
-            <h2 class="display-4 fw-bold mb-5" style="color: #72b1e1;">Services</h2>
+            <h2 class="display-4 fw-bold mb-5" style="color: #72b1e1;">Products And Services: Available</h2>
             
             <div class="row g-4 d-flex align-items-stretch">
                 <div class="col-lg-4 d-flex flex-column">

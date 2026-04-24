@@ -3,12 +3,14 @@ $pageTitle = "Item Details - Culture Connect";
 include 'includes/header.php'; 
 include 'config/connection.php';
 include 'processes/read_vote.php';
-
+$returnParams = $_GET;
+unset($returnParams['id']); 
+$backUrl = "products-and-services.php?" . http_build_query($returnParams)
 ?>
 <main class="py-5" style="background-color: #f1f8fc;">
     <div class="container">
         <nav class="mb-4">
-            <a href="products-and-services.php" class="text-dark text-decoration-none fw-bold">
+            <a href="<?php echo $backUrl; ?>" class="text-dark text-decoration-none fw-bold">
                 &larr; BACK TO EXPLORE
             </a>
         </nav>
@@ -91,7 +93,6 @@ include 'processes/read_vote.php';
                             <p class="text-danger fw-bold text-center small">Voting is only available for residents of <?php echo htmlspecialchars($item['AreaName']); ?>.</p>
                         <?php endif; ?>
 
-                        <button class="btn btn-outline-dark btn-lg rounded-0 fw-bold py-3">CONTACT SME</button>
                     </div>
                 </div>
             </div>

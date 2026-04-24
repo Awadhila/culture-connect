@@ -3,6 +3,7 @@ $pageTitle = "Explore - Culture Connect";
 include 'includes/header.php'; 
 include 'config/connection.php';
 include 'processes/load_PS.php';
+$currentFilters = $_GET; 
 ?>
 
 <main class="py-5" style="background-color: #f1f8fc;">
@@ -48,9 +49,9 @@ include 'processes/load_PS.php';
                         <div class="mb-4">
                             <label class="form-label fw-bold small">PRICE RANGE (£)</label>
                             <div class="d-flex gap-2">
-                                <input type="number" name="min" class="form-control border-2 border-dark rounded-0" placeholder="Min"
+                                <input type="number" min="0" name="min" class="form-control border-2 border-dark rounded-0" placeholder="Min"
                                     value="<?php echo isset($_GET['min']) ? htmlspecialchars($_GET['min']) : ''; ?>">
-                                <input type="number" name="max" class="form-control border-2 border-dark rounded-0" placeholder="Max"
+                                <input type="number" min="0" name="max" class="form-control border-2 border-dark rounded-0" placeholder="Max"
                                     value="<?php echo isset($_GET['max']) ? htmlspecialchars($_GET['max']) : ''; ?>">
                             </div>
                         </div>
@@ -82,6 +83,7 @@ include 'processes/load_PS.php';
                     
                     <?php if ($result && $result->num_rows > 0): ?>
                         <?php while($row = $result->fetch_assoc()): ?>
+
                             <div class="col">
                                 <div class="card h-100 product-card">
                                     <img src="<?php echo htmlspecialchars($row['Image']); ?>" 
@@ -96,12 +98,15 @@ include 'processes/load_PS.php';
                                         <p class="text-muted small mb-3">
                                             <?php echo htmlspecialchars($row['CategoryName']); ?>
                                         </p>
-                                        
                                         <div class="d-flex justify-content-between align-items-center mt-auto">
                                             <span class="fw-bold" style="color: #72b1e1;">
                                                 £<?php echo number_format($row['Price'], 2); ?>
                                             </span>
-                                            <a href="view-item.php?id=<?php echo $row['ProductID']; ?>" 
+                                            <?php 
+                                            // This line captures all current filters and adds the specific ID for the link
+                                            $viewUrl = "view-item.php?" . http_build_query(array_merge($_GET, ['id' => $row['ProductID']])); 
+                                            ?>
+                                            <a href="view-item.php?id=<?php echo $viewUrl; ?>" 
                                             class="btn btn-sm btn-outline-dark rounded-0 px-3">
                                             View
                                             </a>
