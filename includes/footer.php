@@ -72,6 +72,16 @@
         </div>
     </div>
 </footer>
-<script src="./assets/js/bootstrap.bundle.min.js"></script>
+<?php 
+// Get the current page name
+$current_page = basename($_SERVER['PHP_SELF']); 
+// List of pages where the navbar should NOT show
+$excluded_pages = ['signin.php', 'signup.php']; 
+?>
+<?php if (!in_array($current_page, $excluded_pages)): ?>
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+<?php else: ?>
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+<?php endif; ?>
 </body>
 </html>

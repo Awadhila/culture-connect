@@ -2,18 +2,7 @@
 $pageTitle = "Register - Culture Connect";
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo isset($pageTitle) ? htmlspecialchars($pageTitle) : 'Culture Connect'; ?></title>
-    <link rel="stylesheet" href="/culture-connect/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/culture-connect/assets/css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-</head>
+<?php include '../includes/header.php';?>
 <main class="py-5" style="background-color: #f1f8fc; min-height: 80vh;">
     <div class="container">
         <div class="row justify-content-center">
@@ -100,11 +89,12 @@ $pageTitle = "Register - Culture Connect";
                             REGISTER NOW
                         </button>
                     </form>
-                    <script src="/culture-connect/assets/js/registration.js"></script>                    <div class="text-center">
-                    <p class="small fw-bold">Already have an account? <a href="signin.php" style="color: #72b1e1;">Log In</a></p>
-                    <a href="index.php" class="text-decoration-none fw-bold small" style="color: #72b1e1;">
-                        ← BACK TO HOME
-                    </a>
+                    <script src="../assets/js/registration.js"></script>                    
+                    <div class="text-center">
+                        <p class="small fw-bold">Already have an account? <a href="signin.php" style="color: #72b1e1;">Log In</a></p>
+                        <a href="index.php" class="text-decoration-none fw-bold small" style="color: #72b1e1;">
+                            ← BACK TO HOME
+                        </a>
                     </div>
                 </div>
             </div>

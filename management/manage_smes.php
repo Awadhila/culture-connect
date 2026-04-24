@@ -16,7 +16,7 @@ $totalRes = $conn->query("SELECT COUNT(*) as total FROM SME");
 $totalSmes = $totalRes->fetch_assoc()['total'];
 
 // Fetch specific SME and its Manager
-$sql = "SELECT s.*, a.Name as AreaName, u.First_Name, u.Last_Name, u.Email as MgrEmail, u.UserID as MgrID
+$sql = "SELECT s.*, a.Name as AreaName, u.First_Name, u.Last_Name, u.Email as MgrEmail, u.Date_Of_Birth as dob, u.Gender, u.UserID as MgrID, s.Email as SmeEmail
         FROM SME s
         JOIN Area a ON s.AreaID = a.AreaID
         JOIN SME_Members sm ON s.SmeID = sm.SmeID
@@ -48,15 +48,21 @@ $sme = $result->fetch_assoc();
                 <div class="row">
                     <div class="col-md-6 border-end">
                         <h5 class="text-primary fw-bold">Business Information</h5>
-                        <p><strong>Email:</strong> <?php echo htmlspecialchars($sme['Email']); ?></p>
+                        <p><strong>Email:</strong> <?php echo htmlspecialchars($sme['SmeEmail']); ?></p>
                         <p><strong>Location:</strong> <?php echo htmlspecialchars($sme['AreaName']); ?></p>
-                        <p><strong>Bio:</strong><br><?php echo nl2br(htmlspecialchars($sme['Bio'])); ?></p>
+                        <div class="card border-4 border-dark rounded-0 p-4 bg-white">
+                            <p class="text-justify fw-semibold" style="line-height: 1.6;">
+                                <?php echo htmlspecialchars($sme['Bio']); ?>
+                            </p>
+                        </div>
                     </div>
                     <div class="col-md-6 ps-md-4">
                         <h5 class="text-success fw-bold">Manager Details</h5>
                         <p><strong>Name:</strong> <?php echo htmlspecialchars($sme['First_Name'] . ' ' . $sme['Last_Name']); ?></p>
-                        <p><strong>Manager Email:</strong> <?php echo htmlspecialchars($sme['MgrEmail']); ?></p>
-                        
+                        <p><strong>Email:</strong> <?php echo htmlspecialchars($sme['MgrEmail']); ?></p>
+                        <p><strong>Date of Birth:</strong> <?php echo htmlspecialchars($sme['dob']); ?></p>
+                        <p><strong>Gender:</strong> <?php echo htmlspecialchars($sme['Gender']); ?></p>
+
                         <div class="mt-5 pt-4 border-top">
                             <button class="btn btn-danger w-100 rounded-0 fw-bold" 
                                     onclick="confirmDelete(<?php echo $sme['SmeID']; ?>, <?php echo $sme['MgrID']; ?>, '<?php echo addslashes($sme['Name']); ?>')">

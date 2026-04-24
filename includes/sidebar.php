@@ -6,6 +6,7 @@
     <title><?php echo isset($pageTitle) ? htmlspecialchars($pageTitle) : 'Culture Connect'; ?></title>
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="icon" type="image/png" href="/culture-connect/assets/img/cc.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -31,13 +32,7 @@
                     <img src="../assets/img/icons/vote.png" alt="Votes" width="22" height="22" class="me-3">
                     <span class="fs-5 fw-normal">Votes</span>
                 </a>
-                <?php if (isset($_SESSION['is_council_member']) && $_SESSION['is_council_member'] === true): ?>
 
-                <a href="../reports.php" class="list-group-item list-group-item-action bg-transparent text-white border-0 p-3 d-flex align-items-center text-decoration-none sidebar-link">
-                    <img src="../assets/img/icons/report.png" alt="Report" width="22" height="22" class="me-3">
-                    <span class="fs-5 fw-normal">Report</span>
-                </a>
-                <?php endif; ?>
                 <?php if (isset($_SESSION['is_sme_member']) && $_SESSION['is_sme_member'] === true): ?>
                 <a href="../management/manage_PS_SME.php" class="list-group-item list-group-item-action bg-transparent text-white border-0 p-3 d-flex align-items-center text-decoration-none sidebar-link">
                     <img src="../assets/img/icons/Product-Service.png" alt="Services" width="22" height="22" class="me-3">

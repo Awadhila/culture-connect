@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "root"; // Default XAMPP username
 $password = "";     // Default XAMPP password is empty
-$dbname = "Culture-Connect"; // The name of the DB you created in phpMyAdmin
+$dbname = "CultureConnect"; // The name of the DB you created in phpMyAdmin
 
 // 2. Establish the Connection
 $conn = new mysqli($servername, $username, $password, $dbname);

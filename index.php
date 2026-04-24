@@ -8,10 +8,13 @@ include 'includes/header.php'; ?>
         <header class="row align-items-start mb-0 hero-section">
             
             <div class="col-lg-4 pt-4">
+                <h3 class="fw-bold mb-3">Empowering Local Culture</h3>
                 <p class="text-dark m-0 project-desc">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
-                    ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
-                    ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet.
+                    Culture Connect is a community-driven initiative bridging the gap between residents 
+                    and their local creative heartbeat. Supported by councils and partners, our platform 
+                    serves as a central hub where art, heritage, and innovation meet. Whether you seek 
+                    immersive workshops, live performances, or unique local products, we make it easier 
+                    than ever to discover the cultural wealth in your own neighbourhood.
                 </p>
             </div>
             
@@ -36,15 +39,17 @@ include 'includes/header.php'; ?>
                 </div>
             </div>
             <div class="col-lg-4 ps-lg-5 text-end">
-                <h3 class="fw-bold mb-3 site-url">www.cultureconnect.com</h3>
+                <h4 class="fw-bold mb-3">Your Voice, Your Community</h4>
                 <p class="text-dark text-start project-desc">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 
-                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-                    laboris nisi ut aliquip ex ea commodo consequat.
+                    We believe residents should shape their community’s cultural future. 
+                    Through our structured voting system, Culture Connect empowers you 
+                    to provide direct feedback on the services and products you value most. 
                     <br></br>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 
-                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-                    laboris nisi ut aliquip ex ea commodo consequat.
+                    Your participation supports local creative SMEs and provides vital data 
+                    to councils and organisations, helping them make informed decisions about 
+                    funding, programming, and the long-term development of our shared cultural 
+                    landscape. Every vote cast on Culture Connect directly influences the 
+                    sustainability of local talent and community heritage.
                 </p>
             </div>
         </section>
