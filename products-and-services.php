@@ -3,7 +3,6 @@ $pageTitle = "Explore - Culture Connect";
 include 'includes/header.php'; 
 include 'config/connection.php';
 include 'processes/load_PS.php';
-$currentFilters = $_GET; 
 ?>
 
 <main class="py-5" style="background-color: #f1f8fc;">
@@ -102,15 +101,23 @@ $currentFilters = $_GET;
                                             <span class="fw-bold" style="color: #72b1e1;">
                                                 £<?php echo number_format($row['Price'], 2); ?>
                                             </span>
-                                            <?php 
-                                            // This line captures all current filters and adds the specific ID for the link
-                                            $viewUrl = "view-item.php?" . http_build_query(array_merge($_GET, ['id' => $row['ProductID']])); 
+                                             <?php 
+                                            // Prepare the filter parameters once outside the loop
+                                            $currentFilters = $_GET;
+                                            // We define defaults to ensure the URL structure is consistent
+                                            $defaults = ['search' => '', 'cat_id' => '', 'min' => '', 'max' => ''];
+
+                                            // Merge to keep the URL "full" even if filters are empty, 
+                                            // OR just use the clean GET if you prefer tidy URLs.
+                                            $filterQuery = !empty($currentFilters) ? "&" . http_build_query($currentFilters) : "";
                                             ?>
-                                            <a href="view-item.php?id=<?php echo $viewUrl; ?>" 
+                                            <a href="view-item.php?id=<?php echo $row['ProductID'] . $filterQuery; ?>" 
                                             class="btn btn-sm btn-outline-dark rounded-0 px-3">
                                             View
                                             </a>
                                         </div>
+
+
                                     </div>
                                 </div>
                             </div>

@@ -213,7 +213,6 @@ $hasVoted = ($stmtVote->get_result()->fetch_assoc()['vote_count'] > 0);
                                 </textarea>
                         </div>
                     </div>
-
                 <?php endif; ?>
                     <div class="row mt-4">
                         <div class="col-10">

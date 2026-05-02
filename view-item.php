@@ -3,10 +3,25 @@ $pageTitle = "Item Details - Culture Connect";
 include 'includes/header.php'; 
 include 'config/connection.php';
 include 'processes/read_vote.php';
+
+// 1. Capture filters
+// Capture filters from URL
 $returnParams = $_GET;
 unset($returnParams['id']); 
-$backUrl = "products-and-services.php?" . http_build_query($returnParams)
+
+// Clean them to see if anything is actually set
+$cleanParams = array_filter($returnParams, function($value) {
+    return ($value !== '' && $value !== null);
+});
+
+// If no actual search criteria exist, go to the plain page
+if (empty($cleanParams)) {
+    $backUrl = "products-and-services.php";
+} else {
+    $backUrl = "products-and-services.php?" . http_build_query($cleanParams);
+}
 ?>
+
 <main class="py-5" style="background-color: #f1f8fc;">
     <div class="container">
         <nav class="mb-4">

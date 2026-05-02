@@ -1,6 +1,6 @@
 <?php
 // 1. Get IDs from URL and Session
-$itemID = isset($_GET['id']) && is_numeric($_GET['id']) ? (int)$_GET['id'] : 0;
+$itemID = (isset($_GET['id']) && is_numeric($_GET['id'])) ? (int)$_GET['id'] : 0;
 $currentUserID = $_SESSION['user_id'] ?? 0;
 
 $item = null; // Initialize to null
@@ -19,9 +19,9 @@ $sql = "SELECT ps.*, c.Name as CategoryName, c.Type as CategoryType,
         FROM Products_Services ps 
         JOIN Category c ON ps.CategoryID = c.CategoryID 
         JOIN SME s ON ps.SmeID = s.SmeID 
-        JOIN Area a ON s.AreaID = a.AreaID -- ADD THIS JOIN
+        LEFT JOIN Area a ON s.AreaID = a.AreaID -- Change to LEFT JOIN
         WHERE ps.ProductID = ? AND ps.Is_Available = 1";
-    
+        
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ii", $currentUserID, $itemID);
     $stmt->execute();
@@ -31,7 +31,7 @@ $sql = "SELECT ps.*, c.Name as CategoryName, c.Type as CategoryType,
 
 // 3. Redirect if item doesn't exist or is unavailable
 if (!$item) {
-    header("Location: ../products-and-services.php");
+    header("Location: ./products-and-services.php?error=item_not_found");
     exit();
 }
 
